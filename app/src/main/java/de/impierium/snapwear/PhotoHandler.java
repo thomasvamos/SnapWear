@@ -16,9 +16,11 @@ public class PhotoHandler implements PictureCallback {
 
     private static final String TAG = "PhotoHandler";
     private final Context context;
+    private PictureTakenCallback callback;
 
-    public PhotoHandler(Context context) {
+    public PhotoHandler(Context context, PictureTakenCallback callback) {
         this.context = context;
+        this.callback = callback;
     }
 
     @Override
@@ -55,9 +57,10 @@ public class PhotoHandler implements PictureCallback {
             Toast.makeText(context, "Image could not be saved.",
                     Toast.LENGTH_LONG).show();
         } finally {
-            camera.stopPreview();
-            camera.release();
+            callback.onPictureTaken();
         }
+
+
     }
 
     private File getDir() {
